@@ -3055,8 +3055,8 @@ body:not(.logged-in) .schedule-intro {
   }
 
   .dashboard-welcome h1 {
-    font-size: 1.75rem !important;
-    line-height: 1.15 !important;
+    font-size: 1.55rem !important;
+    line-height: 1.1 !important;
   }
 
   .dashboard-welcome p {
@@ -3279,11 +3279,11 @@ body:not(.logged-in) .schedule-intro {
 @media (max-width:768px){
 
   .dashboard-small-card{
-    padding:16px !important;
+    padding:20px !important;
   }
 
   .dashboard-small-card h2{
-    font-size:1.6rem !important;
+    font-size:1.4rem !important;
     margin-bottom:10px !important;
   }
 
@@ -3719,4 +3719,211 @@ body:not(.logged-in) .schedule-intro {
     min-height: 44px !important;
     margin-top: 12px !important;
   }
+}
+/* ==========================================
+   PILATES SISTERS - MOBILE PREMIUM UI
+   ========================================== */
+
+@media (max-width: 768px) {
+
+/* HERO */
+
+.dashboard-welcome,
+.dashboard-header,
+.dashboard-home {
+  border-radius: 32px !important;
+}
+
+.dashboard-home h1,
+.dashboard-title {
+  line-height: 0.95 !important;
+  letter-spacing: -1px;
+}
+
+/* CARD GENERALI */
+
+.dashboard-card,
+.lesson-card,
+.info-card,
+.waiting-card,
+.history-card {
+  border-radius: 28px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.05) !important;
+}
+
+/* PROSSIMA LEZIONE */
+
+#nextLessonCard {
+  border-radius: 26px !important;
+  padding: 20px !important;
+}
+
+#nextLessonCard h3 {
+  font-size: 1.55rem !important;
+}
+
+#nextLessonCard .status-badge {
+  transform: scale(1.05);
+}
+
+/* PULSANTI */
+
+button,
+.btn,
+.book-btn {
+  border-radius: 999px !important;
+  min-height: 54px !important;
+  font-weight: 600 !important;
+  transition: all .25s ease;
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+/* BARRA INFERIORE */
+
+.bottom-nav {
+  border-radius: 999px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.08) !important;
+}
+
+.bottom-nav button,
+.bottom-nav a {
+  border-radius: 999px !important;
+}
+
+/* AVVISI */
+
+.news-card,
+#newsContainer {
+  border-radius: 28px !important;
+}
+
+/* STORICO + LISTA ATTESA */
+
+#pastBookingsCard,
+#waitingListCard {
+  border-radius: 28px !important;
+}
+
+#pastBookingsCard button,
+#waitingListCard button {
+  min-height: 46px !important;
+}
+
+/* ==========================================
+   PRENOTA CLIENTE
+   ========================================== */
+
+.schedule-intro {
+  padding-top: 35px !important;
+}
+
+.schedule-intro h2 {
+  font-size: 3rem !important;
+  line-height: 1 !important;
+}
+
+.schedule-intro p {
+  max-width: 320px;
+  margin: auto;
+}
+
+/* GIORNI */
+
+.mobile-day-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(252,248,243,.95);
+  backdrop-filter: blur(10px);
+  padding: 10px 15px;
+}
+
+.mobile-day-tabs button {
+  border-radius: 24px !important;
+  min-width: 74px;
+  height: 56px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,.05);
+}
+
+.mobile-day-tabs button.active {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(177,138,117,.25);
+}
+
+/* CARD LEZIONI */
+
+.courses .card {
+  border-radius: 30px !important;
+  padding: 28px 22px !important;
+  box-shadow: 0 14px 32px rgba(0,0,0,.05);
+  border: 1px solid rgba(177,138,117,.08);
+}
+
+.lesson-type {
+  font-size: .82rem !important;
+  letter-spacing: .22em;
+}
+
+.time {
+  font-size: 1.9rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 20px !important;
+}
+
+/* BOTTONE PRENOTA */
+
+.courses .card button {
+  min-height: 58px !important;
+  border-radius: 999px !important;
+  font-size: 1.08rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 10px 24px rgba(177,138,117,.25);
+}
+
+/* POSTI DISPONIBILI */
+
+.spots {
+  margin-top: 14px !important;
+  font-size: 1rem !important;
+  font-weight: 600;
+}
+
+/* BARRA DISPONIBILITA */
+
+.booking-slot-progress {
+  height: 8px !important;
+  border-radius: 999px !important;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.booking-slot-progress span {
+  border-radius: 999px;
+}
+
+/* LISTA ATTESA */
+
+.waiting-count {
+  margin-top: 10px;
+  font-size: .92rem;
+  color: #8d6e63;
+}
+
+/* TITOLO GIORNO */
+
+.day-title {
+  font-size: 2.6rem !important;
+  margin-bottom: 18px !important;
+}
+
+/* SPAZIATURE */
+
+.courses {
+  padding-bottom: 130px !important;
+}
+
 }

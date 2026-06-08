@@ -239,8 +239,8 @@ if (bookingNavButton) {
   }
 
   if (dashboardGreeting) {
-    dashboardGreeting.innerText =
-      `La tua area personale`;
+    dashboardGreeting.innerHTML =
+      `La tua area personale <span>✨</span>`;
   }
 
  await goHome();
@@ -646,51 +646,44 @@ const waitingListSummary =
       return now >= oneMinuteAfterStart;
     });
 
-  let weeklyBookings = [];
+ const today = new Date();
 
-  if (futureBookings.length > 0) {
-    const referenceDate =
+const startOfWeek =
+  new Date(today);
+
+const day =
+  startOfWeek.getDay();
+
+const diffToMonday =
+  day === 0 ? -6 : 1 - day;
+
+startOfWeek.setDate(
+  today.getDate() + diffToMonday
+);
+
+startOfWeek.setHours(0, 0, 0, 0);
+
+const endOfWeek =
+  new Date(startOfWeek);
+
+endOfWeek.setDate(
+  startOfWeek.getDate() + 6
+);
+
+endOfWeek.setHours(23, 59, 59, 999);
+
+const weeklyBookings =
+  safeBookings.filter(booking => {
+    const lessonDate =
       new Date(
-        `${futureBookings[0].data_lezione}T00:00:00`
+        `${booking.data_lezione}T00:00:00`
       );
 
-    const startOfWeek =
-      new Date(referenceDate);
-
-    const day =
-      startOfWeek.getDay();
-
-    const diffToMonday =
-      day === 0 ? -6 : 1 - day;
-
-    startOfWeek.setDate(
-      referenceDate.getDate() + diffToMonday
+    return (
+      lessonDate >= startOfWeek &&
+      lessonDate <= endOfWeek
     );
-
-    startOfWeek.setHours(0, 0, 0, 0);
-
-    const endOfWeek =
-      new Date(startOfWeek);
-
-    endOfWeek.setDate(
-      startOfWeek.getDate() + 6
-    );
-
-    endOfWeek.setHours(23, 59, 59, 999);
-
-    weeklyBookings =
-      safeBookings.filter(booking => {
-        const lessonDate =
-          new Date(
-            `${booking.data_lezione}T00:00:00`
-          );
-
-        return (
-          lessonDate >= startOfWeek &&
-          lessonDate <= endOfWeek
-        );
-      });
-  }
+  });
 
   if (bookingCounter) {
   const booked =

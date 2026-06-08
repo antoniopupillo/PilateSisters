@@ -485,11 +485,12 @@ spotsText.innerHTML = `
         waitingData ? waitingData.length : 0;
 
       if (waitingNumber > 0) {
+        waitingText.computedStyleMap.display = "block";
         waitingText.textContent =
           `🔥 ${waitingNumber} in lista d'attesa`;
       } else {
-        waitingText.textContent =
-          "Lista d'attesa: nessuno";
+        waitingText.textContent = " ";
+        waitingText.computedStyleMap.display = "none";
       }
     }
   }

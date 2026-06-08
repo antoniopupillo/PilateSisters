@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Prenotazioni PilateSisters</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <!-- TOPBAR -->
+
+  <div class="topbar">
+
+    <button id="openAuthModal">
+      Accedi
+    </button>
+
+    <div id="userArea" style="display:none;">
+      <span id="welcomeUser"></span>
+
+      <button onclick="logoutUser()">
+        Logout
+      </button>
+    </div>
+
+  </div>
+
+  <!-- MODALE LOGIN -->
+
+  <div class="modal" id="authModal">
+
+    <div class="modal-content">
+
+      <span class="close" id="closeAuthModal">
+        &times;
+      </span>
+
+      <h2>Area Personale</h2>
+
+      <div class="auth-tabs">
+        <button type="button" onclick="showLogin()">Accedi</button>
+        <button type="button" onclick="showRegister()">Registrati</button>
+      </div>
+
+      <div id="loginForm">
+  <input type="email" id="loginEmail" placeholder="Email">
+  <input type="password" id="loginPassword" placeholder="Password">
+
+  <button onclick="loginUser()">
+    Accedi
+  </button>
+
+  <button
+    type="button"
+    class="forgot-password-btn"
+    onclick="forgotPassword()"
+  >
+    Password dimenticata?
+  </button>
+</div>
+
+      <div id="registerForm" style="display:none;">
+        <input type="text" id="registerName" placeholder="Nome">
+        <input type="text" id="registerPhone" placeholder="Telefono">
+        <input type="email" id="registerEmail" placeholder="Email">
+        <input type="password" id="registerPassword" placeholder="Password">
+
+        <button onclick="registerUser()">
+          Invia richiesta
+        </button>
+      </div>
+
+      <p id="authMessage"></p>
+
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+
+  <header>
+
+    <div class="logo">
+      <img src="logo.png" alt="PilateSisters Logo">
+    </div>
+
+    <p>Benessere, equilibrio e movimento</p>
+
+    <a href="#calendario" class="scroll-down">
+      ↓
+    </a>
+
+  </header>
+
+  <nav id="appNav" class="app-nav" style="display:none;">
+
+  <button onclick="showAppSection('home')" class="active">
+    🏠 Home
+  </button>
+
+  <button onclick="showAppSection('booking')">
+    Prenota
+  </button>
+
+</nav>
+
+  <!-- CHI SIAMO -->
+
+  <section class="about-section">
+
+    <p class="section-label">PilateSisters</p>
+
+    <h2>Uno spazio dedicato al tuo equilibrio</h2>
+
+    <p>
+      PilateSisters nasce per accompagnarti in un percorso di movimento,
+      consapevolezza e benessere. Le lezioni sono pensate per aiutarti a
+      migliorare postura, forza, elasticità e controllo del corpo, in un
+      ambiente accogliente e curato.
+    </p>
+
+  </section>
+
+  <!-- INTRO CALENDARIO -->
+
+  <section class="schedule-intro">
+    <p class="section-label">Prenotazioni</p>
+
+    <h2>Calendario lezioni</h2>
+
+    <p>
+      Scegli il giorno e l’orario più adatto a te. I posti disponibili
+      vengono aggiornati in tempo reale.
+    </p>
+  </section>
+
+  <!-- TABS GIORNI -->
+
+  <div class="mobile-day-tabs">
+    <button onclick="showMobileDay('lunedi')">Lun</button>
+    <button onclick="showMobileDay('martedi')">Mar</button>
+    <button onclick="showMobileDay('mercoledi')">Mer</button>
+    <button onclick="showMobileDay('giovedi')">Gio</button>
+    <button onclick="showMobileDay('venerdi')">Ven</button>
+  </div>
+
+  <!-- CALENDARIO -->
+
+  <section class="courses" id="calendario">
+
+    <!-- LUNEDÌ -->
+
+    <div class="day-column" data-day="lunedi">
+
+      <h2 class="day-title">Lunedì</h2>
+
+      <div class="card" id="lunedi-9">
+        <p class="lesson-type">Pilates Posturale</p>
+        <p class="time">09:00 - 10:00</p>
+        <button onclick="bookSlot('lunedi-9')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="lunedi-17">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">17:00 - 18:00</p>
+        <button onclick="bookSlot('lunedi-17')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="lunedi-1815">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">18:15 - 19:15</p>
+        <button onclick="bookSlot('lunedi-1815')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="lunedi-1930">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">19:30 - 20:30</p>
+        <button onclick="bookSlot('lunedi-1930')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+    </div>
+
+    <!-- MARTEDÌ -->
+
+    <div class="day-column" data-day="martedi">
+
+      <h2 class="day-title">Martedì</h2>
+
+      <div class="card" id="martedi-17">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">17:00 - 18:00</p>
+        <button onclick="bookSlot('martedi-17')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="martedi-1815">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">18:15 - 19:15</p>
+        <button onclick="bookSlot('martedi-1815')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="martedi-1930">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">19:30 - 20:30</p>
+        <button onclick="bookSlot('martedi-1930')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+    </div>
+
+    <!-- MERCOLEDÌ -->
+
+    <div class="day-column" data-day="mercoledi">
+
+      <h2 class="day-title">Mercoledì</h2>
+
+      <div class="card" id="mercoledi-9">
+        <p class="lesson-type">Pilates Posturale</p>
+        <p class="time">09:00 - 10:00</p>
+        <button onclick="bookSlot('mercoledi-9')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="mercoledi-17">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">17:00 - 18:00</p>
+        <button onclick="bookSlot('mercoledi-17')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="mercoledi-1815">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">18:15 - 19:15</p>
+        <button onclick="bookSlot('mercoledi-1815')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="mercoledi-1930">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">19:30 - 20:30</p>
+        <button onclick="bookSlot('mercoledi-1930')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+    </div>
+
+    <!-- GIOVEDÌ -->
+
+    <div class="day-column" data-day="giovedi">
+
+      <h2 class="day-title">Giovedì</h2>
+
+      <div class="card" id="giovedi-17">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">17:00 - 18:00</p>
+        <button onclick="bookSlot('giovedi-17')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="giovedi-1815">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">18:15 - 19:15</p>
+        <button onclick="bookSlot('giovedi-1815')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="giovedi-1930">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">19:30 - 20:30</p>
+        <button onclick="bookSlot('giovedi-1930')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+    </div>
+
+    <!-- VENERDÌ -->
+
+    <div class="day-column" data-day="venerdi">
+
+      <h2 class="day-title">Venerdì</h2>
+
+      <div class="card" id="venerdi-9">
+        <p class="lesson-type">Pilates Posturale</p>
+        <p class="time">09:00 - 10:00</p>
+        <button onclick="bookSlot('venerdi-9')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="venerdi-17">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">17:00 - 18:00</p>
+        <button onclick="bookSlot('venerdi-17')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="venerdi-1815">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">18:15 - 19:15</p>
+        <button onclick="bookSlot('venerdi-1815')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+      <div class="card" id="venerdi-1930">
+        <p class="lesson-type">Pilates Matwork</p>
+        <p class="time">19:30 - 20:30</p>
+        <button onclick="bookSlot('venerdi-1930')">Prenota</button>
+        <p class="spots">Posti rimasti: ...</p>
+        <p class="waiting-count">Lista d'attesa: ...</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- AREA PERSONALE -->
+
+  <section class="my-bookings-section" id="myBookingsSection" style="display:none;">
+
+  <div id="importantNewsBanner" class="important-news-banner"></div>
+
+  <div class="dashboard-welcome">
+    <h1 id="dashboardGreeting">Ciao 👋</h1>
+    <p>Ecco la tua area personale</p>
+  </div>
+
+  <div class="dashboard-top">
+
+    <div class="dashboard-main">
+
+      <div class="dashboard-card">
+        <div class="dashboard-card-title">
+          <span>📅</span>
+          <h2>La tua prossima lezione</h2>
+        </div>
+
+        <div id="nextLessonCard" class="next-lesson-card"></div>
+
+        <div id="weeklyBookingCounter" class="weekly-booking-counter"></div>
+
+        <div id="myBookings"></div>
+      </div>
+
+    </div>
+
+    <aside class="dashboard-news">
+
+      <div class="dashboard-card-title">
+        <span>📢</span>
+        <h2>Avvisi</h2>
+      </div>
+
+      <div id="newsContainer"></div>
+
+    </aside>
+
+  </div>
+
+  <div class="dashboard-bottom">
+
+  <div class="dashboard-small-card">
+
+    <div class="dashboard-card-title">
+      <span>↺</span>
+      <h2>Storico lezioni</h2>
+    </div>
+
+    <p id="pastBookingsSummary">
+      Caricamento storico...
+    </p>
+
+    <button
+      class="dashboard-outline-btn"
+      onclick="toggleDashboardBox('myPastBookings')"
+    >
+      Visualizza storico
+    </button>
+
+    <div
+      id="myPastBookings"
+      class="dashboard-hidden-box"
+    ></div>
+
+  </div>
+
+  <div class="dashboard-small-card">
+
+    <div class="dashboard-card-title">
+      <span>👥</span>
+      <h2>La mia lista d'attesa</h2>
+    </div>
+
+    <p id="waitingListSummary">
+      Caricamento lista d'attesa...
+    </p>
+
+    <button
+      class="dashboard-outline-btn"
+      onclick="toggleDashboardBox('myWaitingList')"
+    >
+      Visualizza lista
+    </button>
+
+    <div
+      id="myWaitingList"
+      class="dashboard-hidden-box"
+    ></div>
+
+  </div>
+
+</div>
+
+  </section>
+
+  <!-- ADMIN PANEL -->
+
+  <section class="admin-panel" id="adminPanel" style="display:none;">
+
+  <h2>Pannello Admin</h2>
+
+<div class="admin-stats">
+
+  <div class="admin-stats-top">
+
+    <div class="admin-stat-card" onclick="showAdminDetails('users')">
+      <span id="totalUsers">0</span>
+      <p>Utenti</p>
+    </div>
+
+    <div class="admin-stat-card" onclick="showAdminDetails('pending')">
+      <span id="pendingUsersCount">0</span>
+      <p>Da approvare</p>
+    </div>
+
+    <div class="admin-stat-card" onclick="showAdminDetails('bookings')">
+      <span id="totalBookings">0</span>
+      <p>Prenotazioni</p>
+    </div>
+
+    <div class="admin-stat-card" onclick="showAdminDetails('waiting')">
+      <span id="waitingList">0</span>
+      <p>Lista attesa</p>
+    </div>
+
+  </div>
+
+  <div class="admin-stats-bottom">
+
+    <div class="admin-stat-card" onclick="showClosuresPanel()">
+      <span>📅</span>
+      <p>Chiusure</p>
+    </div>
+
+    <div class="admin-stat-card" onclick="showNewsPanel()">
+      <span>📢</span>
+      <p>Avvisi</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="adminDetails" class="admin-details"></div>
+
+<div class="admin-closures-box" id="closuresPanel" style="display:none;">
+
+  <h3>Gestione chiusure</h3>
+
+  <input type="date" id="closureDate">
+
+  <input
+    type="text"
+    id="closureReason"
+    placeholder="Motivo chiusura"
+  >
+
+  <button onclick="addClosureDate()">
+    Aggiungi chiusura
+  </button>
+
+  <div id="closuresList"></div>
+
+</div>
+
+    <div class="admin-news-box" id="newsPanel" style="display:none;">
+
+      <h3>Gestione avvisi</h3>
+
+      <input
+        type="text"
+        id="newsTitle"
+        placeholder="Titolo avviso"
+      >
+
+      <textarea
+        id="newsContent"
+        placeholder="Testo avviso"
+      ></textarea>
+
+      <label class="news-pin-label">
+        <input type="checkbox" id="newsPinned">
+        Fissa in alto
+      </label>
+
+      <button onclick="addNews()">
+        Pubblica avviso
+      </button>
+
+      <div id="adminNewsList"></div>
+
+    </div>
+
+  </section>
+
+  <section id="adminAgendaPanel" class="admin-agenda-panel" style="display:none;">
+
+  <div class="admin-agenda-header">
+    <div>
+      <h2>Agenda Studio</h2>
+      <p>Panoramica delle lezioni e delle prenotazioni.</p>
+    </div>
+  </div>
+
+  <div class="agenda-stats-grid">
+
+    <div class="agenda-stat-card">
+      <span>📅</span>
+      <div>
+        <p>Lezioni totali</p>
+        <strong id="agendaTotalLessons">0</strong>
+        <small>Questa settimana</small>
+      </div>
+    </div>
+
+    <div class="agenda-stat-card">
+      <span>👥</span>
+      <div>
+        <p>Posti prenotati</p>
+        <strong id="agendaTotalBookings">0</strong>
+        <small>Questa settimana</small>
+      </div>
+    </div>
+
+    <div class="agenda-stat-card">
+      <span>⏳</span>
+      <div>
+        <p>Liste d'attesa</p>
+        <strong id="agendaTotalWaiting">0</strong>
+        <small>Questa settimana</small>
+      </div>
+    </div>
+
+    <div class="agenda-stat-card">
+      <span>📊</span>
+      <div>
+        <p>Tasso di riempimento</p>
+        <strong id="agendaFillRate">0%</strong>
+        <small>Media settimanale</small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="agenda-days-grid">
+
+    <div class="agenda-day-card">
+      <h3>Oggi</h3>
+      <div id="agendaTodayLessons"></div>
+    </div>
+
+    <div class="agenda-day-card">
+      <h3>Domani</h3>
+      <div id="agendaTomorrowLessons"></div>
+    </div>
+
+  </div>
+
+  <div class="agenda-week-card">
+    <h3>Riepilogo della settimana</h3>
+    <div id="agendaWeekSummary" class="agenda-week-grid"></div>
+  </div>
+
+</section>
+
+  <!-- FOOTER -->
+
+  <footer class="site-footer">
+
+    <div class="footer-container">
+
+      <div class="footer-left">
+
+        <img
+          src="logo.png"
+          alt="PilateSisters"
+          class="footer-logo"
+        >
+
+        <div class="footer-brand-text">
+
+          <h3>PilateSisters</h3>
+
+          <p>
+            CENTRO STUDIO<br>
+            PILATES & POSTURALE
+          </p>
+
+          <span>
+            di Giorgia & Michela
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="footer-center">
+
+        <p class="footer-text">
+          Lezioni Reformer disponibili
+          su prenotazione ✨
+        </p>
+
+        <div class="footer-whatsapp">
+
+          <a
+            href="https://wa.me/393246294346?text=Ciao%20Giorgia,%20vorrei%20prenotare%20una%20lezione%20privata%20di%20Reformer%20✨"
+            target="_blank"
+          >
+            Giorgia
+          </a>
+
+          <a
+            href="https://wa.me/393297253357?text=Ciao%20Michela,%20vorrei%20prenotare%20una%20lezione%20privata%20di%20Reformer%20✨"
+            target="_blank"
+          >
+            Michela
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="footer-right">
+
+        <h4>CONTATTI</h4>
+
+        <a
+          href="https://instagram.com/pilatesisters_gm"
+          target="_blank"
+          class="footer-instagram"
+        >
+          <i class="fab fa-instagram"></i>
+          <span>@pilatesisters_gm</span>
+        </a>
+
+        <a
+          href="https://www.facebook.com/profile.php?id=61590176924653"
+          target="_blank"
+          class="footer-contact"
+        >
+          <i class="fab fa-facebook-f"></i>
+          <span>PilateSisters</span>
+        </a>
+
+        <a
+          href="mailto:pilatesisters.gm@gmail.com"
+          class="footer-contact"
+        >
+          <i class="fas fa-envelope"></i>
+          <span>pilatesisters.gm@gmail.com</span>
+        </a>
+
+        <h4 class="footer-location-title">
+          DOVE SIAMO
+        </h4>
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Centro%20Pilates%20e%20Posturale%20Via%20Taranto%20236%2073012%20Campi%20Salentina%20LE"
+          target="_blank"
+          class="footer-location"
+        >
+          📍 Campi Salentina, LE
+        </a>
+
+      </div>
+
+    </div>
+
+    <small>
+      © 2026 PilateSisters
+    </small>
+
+  </footer>
+
+  <!-- SCRIPT -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    emailjs.init("Axf8cv8oztPciQpYK");
+  </script>
+
+  <script src="script.js"></script>
+  <script src="auth.js"></script>
+
+</body>
+</html>

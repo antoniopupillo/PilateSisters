@@ -726,7 +726,7 @@ const waitingListSummary =
     </div>
 
     <div class="booking-counter-number">
-      ${booked} lezioni su ${STUDIO_SETTINGS.weeklyBookingLimit}
+      ${booked === 1 ? '1 lezione' : '{booked} lezioni'} su ${STUDIO_SETTINGS.weeklyBookingLimit}
     </div>
 
     ${bookingMessage}
@@ -1164,7 +1164,7 @@ async function loadNews() {
   if (!data || data.length === 0) {
 
     newsContainer.innerHTML = `
-      <p>Nessun avviso disponibile.</p>
+      <p>Nessuna comunicazione al momento.</p>
     `;
 
     return;

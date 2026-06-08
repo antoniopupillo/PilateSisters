@@ -711,7 +711,7 @@ const waitingListSummary =
     `
     : `
       <div class="booking-limit-message">
-        ✨ Ti resta ancora ${remainingBookings}
+        ✨ Ti ${remainingBookings === 1 ? "resta" : "restano"} ancora ${remainingBookings}
         prenotazion${remainingBookings === 1 ? "e" : "i"}
         disponibil${remainingBookings === 1 ? "e" : "i"}
         questa settimana

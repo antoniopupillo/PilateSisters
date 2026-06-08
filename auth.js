@@ -240,7 +240,7 @@ if (bookingNavButton) {
 
   if (dashboardGreeting) {
     dashboardGreeting.innerText =
-      `Benvenuto ${profile.nome}! 👋`;
+      `La tua area personale`;
   }
 
  await goHome();

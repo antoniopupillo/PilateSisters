@@ -1,6 +1,6 @@
 {
-  "name": "Pilates Sisters",
-  "short_name": "Pilates Sisters",
+  "name": "PilateSisters",
+  "short_name": "PilateSisters",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

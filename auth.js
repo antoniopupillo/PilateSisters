@@ -719,7 +719,7 @@ const weeklyBookings =
     </div>
 
     <div class="booking-counter-number">
-      ${booked === 1 ? '1 lezione' : '{booked} lezioni'} su ${STUDIO_SETTINGS.weeklyBookingLimit}
+      ${booked === 1 ? '1 lezione' : `${booked} lezioni`} su ${STUDIO_SETTINGS.weeklyBookingLimit}
     </div>
 
     ${bookingMessage}

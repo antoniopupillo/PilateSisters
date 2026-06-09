@@ -3755,7 +3755,7 @@ body:not(.logged-in) .schedule-intro {
 
 #nextLessonCard {
   border-radius: 26px !important;
-  padding: 20px !important;
+  padding: 16px !important;
 }
 
 #nextLessonCard h3 {
@@ -3926,4 +3926,166 @@ button:active {
   padding-bottom: 130px !important;
 }
 
+}
+/* ===== ADMIN MOBILE - RIFINITURA HOME + AGENDA ===== */
+
+@media (max-width: 768px) {
+
+  /* AGENDA: statistiche in griglia 2x2 */
+  .agenda-stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .agenda-stat-card {
+    min-height: 118px !important;
+    padding: 16px 12px !important;
+    border-radius: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .agenda-stat-card > span {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    font-size: 1.45rem !important;
+  }
+
+  .agenda-stat-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.15 !important;
+    margin: 0 0 4px !important;
+  }
+
+  .agenda-stat-card strong {
+    font-size: 2rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+  }
+
+  .agenda-stat-card small {
+    font-size: 0.78rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* AGENDA: card lezioni più leggibili */
+  .agenda-lesson-card {
+    padding: 18px !important;
+    border-radius: 24px !important;
+  }
+
+  .agenda-lesson-card h3,
+  .agenda-lesson-card h4 {
+    font-size: 1.25rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .agenda-lesson-card .agenda-pill,
+  .agenda-lesson-card .lesson-pill {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+  }
+
+  /* AGENDA: riepilogo settimana più compatto */
+  .agenda-week-summary,
+  .week-summary-card {
+    padding: 18px !important;
+    border-radius: 24px !important;
+  }
+
+  .week-summary-card {
+    min-height: auto !important;
+    margin-bottom: 14px !important;
+  }
+
+  .week-summary-card h4 {
+    margin-bottom: 8px !important;
+    font-size: 1.15rem !important;
+  }
+
+  .week-summary-card p,
+  .week-summary-card div {
+    font-size: 0.95rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* HOME ADMIN: card statistiche più compatte */
+  .admin-stat-card,
+  .admin-card {
+    min-height: 138px !important;
+    padding: 18px 12px !important;
+    border-radius: 24px !important;
+  }
+
+  .admin-stat-card strong,
+  .admin-card strong {
+    font-size: 2.6rem !important;
+    line-height: 1 !important;
+  }
+
+  .admin-stat-card p,
+  .admin-card p {
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* HOME ADMIN: utenti registrati più compatti */
+  .admin-user-card {
+    padding: 20px !important;
+    border-radius: 24px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .admin-user-card h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .admin-user-card button {
+    min-height: 46px !important;
+    padding: 10px 22px !important;
+  }
+}
+/* ===== ADMIN AGENDA - RIEPILOGO SETTIMANA COMPATTO REALE ===== */
+
+@media (max-width: 768px) {
+  .agenda-week-card {
+    padding: 20px 16px !important;
+    border-radius: 26px !important;
+  }
+
+  .agenda-week-card h3 {
+    font-size: 1.35rem !important;
+    margin-bottom: 16px !important;
+    line-height: 1.15 !important;
+  }
+
+  .agenda-week-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  .agenda-week-grid > div {
+    padding: 16px 10px !important;
+    min-height: 130px !important;
+    border-radius: 22px !important;
+    text-align: center !important;
+  }
+
+  .agenda-week-grid h4,
+  .agenda-week-grid strong {
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .agenda-week-grid p,
+  .agenda-week-grid span {
+    font-size: 0.9rem !important;
+    line-height: 1.25 !important;
+    margin: 4px 0 !important;
+  }
 }

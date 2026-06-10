@@ -9,7 +9,7 @@ const FILES_TO_CACHE = [
   "/manifest.json",
   "/icon-192.png",
   "/icon-512.png",
-  "/apple-touch-icon.png",
+  "/apple-touch-icon-iphone-premium.png",
   "/logo.png"
 ];
 

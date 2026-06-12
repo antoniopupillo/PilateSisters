@@ -2171,6 +2171,55 @@ if (typeof updateAvailableSpots === "function") {
 }
 }
 
+async function addClosureDate() {
+  const dateInput = document.getElementById("closureDate");
+  const reasonInput = document.getElementById("closureReason");
+
+  const date = dateInput.value;
+  const reason = reasonInput.value.trim();
+
+  if (!date) {
+    alert("Seleziona una data di chiusura.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("chiusure")
+    .insert([
+      {
+        data: date,
+        motivo: reason || "Chiusura studio",
+        attiva: true
+      }
+    ]);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  const formattedDate = new Date(date).toLocaleDateString("it-IT");
+
+await supabaseClient
+  .from("news")
+  .insert([
+    {
+      titolo: "CHIUSURA STUDIO",
+      contenuto: `Lo studio resterà chiuso il ${formattedDate}. Motivo: ${reason || "chiusura studio"}.`,
+      attiva: true
+    }
+  ]);
+
+  dateInput.value = "";
+  reasonInput.value = "";
+
+  await loadClosuresAdmin();
+
+  if (typeof updateAvailableSpots === "function") {
+    await updateAvailableSpots();
+  }
+}
+
 async function disableClosureDate(id) {
   const { error } = await supabaseClient
     .from("chiusure")
@@ -2192,5 +2241,10 @@ function toggleDashboardBox(id) {
 
   box.classList.toggle("open");
 }
+
+window.addClosureDate = addClosureDate;
+window.loadClosuresAdmin = loadClosuresAdmin;
+window.disableClosureDate = disableClosureDate;
+window.toggleDashboardBox = toggleDashboardBox;
 
 checkUserSession();

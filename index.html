@@ -89,6 +89,32 @@
         </button>
       </div>
 
+      <div id="resetPasswordForm" style="display:none;">
+
+  <h3>Reimposta password</h3>
+
+  <p>
+    Inserisci e conferma la tua nuova password.
+  </p>
+
+  <input
+    type="password"
+    id="newPassword"
+    placeholder="Nuova password"
+  >
+
+  <input
+    type="password"
+    id="confirmNewPassword"
+    placeholder="Conferma nuova password"
+  >
+
+  <button onclick="updatePassword()">
+    Salva nuova password
+  </button>
+
+</div>
+
       <p id="authMessage"></p>
 
     </div>

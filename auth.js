@@ -302,6 +302,73 @@ async function forgotPassword() {
   );
 }
 
+async function updatePassword() {
+
+  const newPassword =
+    document.getElementById("newPassword").value;
+
+  const confirmPassword =
+    document.getElementById("confirmNewPassword").value;
+
+  const message =
+    document.getElementById("authMessage");
+
+  if (!newPassword || !confirmPassword) {
+    message.style.color = "#c62828";
+    message.innerText =
+      "Inserisci e conferma la nuova password.";
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    message.style.color = "#c62828";
+    message.innerText =
+      "La password deve contenere almeno 6 caratteri.";
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    message.style.color = "#c62828";
+    message.innerText =
+      "Le due password non coincidono.";
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.updateUser({
+      password: newPassword
+    });
+
+  if (error) {
+    console.error(error);
+
+    message.style.color = "#c62828";
+    message.innerText =
+      "Errore durante la modifica della password.";
+    return;
+  }
+
+  await supabaseClient.auth.signOut();
+
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+
+  document.getElementById("resetPasswordForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("registerForm").style.display = "none";
+
+  const authTabs =
+    document.querySelector(".auth-tabs");
+
+  if (authTabs) {
+    authTabs.style.display = "flex";
+  }
+
+  message.style.color = "#2e7d32";
+  message.innerText =
+    "✅ Password modificata correttamente. Ora puoi accedere con la nuova password.";
+}
+
 async function loadAdminPanel() {
   const adminPanel = document.getElementById("adminPanel");
   const adminAgendaPanel =
@@ -2292,5 +2359,49 @@ window.addClosureDate = addClosureDate;
 window.loadClosuresAdmin = loadClosuresAdmin;
 window.disableClosureDate = disableClosureDate;
 window.toggleDashboardBox = toggleDashboardBox;
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+
+  if (event === "PASSWORD_RECOVERY") {
+
+    const resetPasswordForm =
+      document.getElementById("resetPasswordForm");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const authTabs =
+      document.querySelector(".auth-tabs");
+
+    const authMessage =
+      document.getElementById("authMessage");
+
+    authModal.style.display = "flex";
+
+    if (loginForm) {
+      loginForm.style.display = "none";
+    }
+
+    if (registerForm) {
+      registerForm.style.display = "none";
+    }
+
+    if (resetPasswordForm) {
+      resetPasswordForm.style.display = "block";
+    }
+
+    if (authTabs) {
+      authTabs.style.display = "none";
+    }
+
+    if (authMessage) {
+      authMessage.innerText = "";
+    }
+  }
+
+});
 
 checkUserSession();

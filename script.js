@@ -8,11 +8,17 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyeXlhemZ6eWl5c2llbmJ5dG9vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyODc4MzAsImV4cCI6MjA5NDg2MzgzMH0.R3bXRf-xHv_XPCibVhZxxVY0TuAdpt0p_OTsdykJXs4";
 
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  }
+);
 
   function formatDateLocal(date) {
   const year = date.getFullYear();
@@ -341,27 +347,22 @@ if (typeof loadMyBookings === "function") {
 async function updateAvailableSpots() {
   const slots = [
     "lunedi-9",
-    "lunedi-17",
-    "lunedi-1815",
-    "lunedi-1930",
+    "lunedi-1730",
+    "lunedi-19",
 
-    "martedi-17",
-    "martedi-1815",
-    "martedi-1930",
+    "martedi-1730",
+    "martedi-19",
 
     "mercoledi-9",
-    "mercoledi-17",
-    "mercoledi-1815",
-    "mercoledi-1930",
+    "mercoledi-1730",
+    "mercoledi-19",
 
-    "giovedi-17",
-    "giovedi-1815",
-    "giovedi-1930",
+    "giovedi-1730",
+    "giovedi-19",
 
     "venerdi-9",
-    "venerdi-17",
-    "venerdi-1815",
-    "venerdi-1930"
+    "venerdi-1730",
+    "venerdi-19"
   ];
 
   for (const slot of slots) {

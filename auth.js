@@ -10,7 +10,7 @@ let currentUserRole = null;
 let currentAppSection = "home";
 
 const STUDIO_SETTINGS = {
-  maxSpotsPerLesson: 13,
+  maxSpotsPerLesson: 15,
   weeklyBookingLimit: 3
 };
 
@@ -531,9 +531,8 @@ function formatSlotName(slot) {
 
   const times = {
     "9": "09:00",
-    "17": "17:00",
-    "1815": "18:15",
-    "1930": "19:30"
+    "1730": "17:30",
+    "19": "19:00"
   };
 
   return `${days[day]} · ${times[time] || time}`;
@@ -1046,6 +1045,15 @@ if (closuresPanel) {
     : ""
 }
 
+${type === "pending" ? `
+  <button
+    class="details-btn"
+    onclick="approveUser('${item.id}')"
+  >
+    Approva
+  </button>
+` : ""}
+
   <button
     class="details-btn"
     onclick="toggleAdminDetails(this)"
@@ -1071,6 +1079,59 @@ function toggleAdminDetails(button) {
   if (!details) return;
 
   details.classList.toggle("show");
+}
+
+async function loadClosuresAdmin() {
+  const closuresList =
+    document.getElementById("closuresList");
+
+  if (!closuresList) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from("chiusure")
+      .select("*")
+      .eq("attiva", true)
+      .order("data", { ascending: true });
+
+  if (error) {
+    console.log(error);
+    closuresList.innerHTML =
+      "<p>Errore caricamento chiusure.</p>";
+    return;
+  }
+
+  closuresList.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    closuresList.innerHTML =
+      "<p>Nessuna chiusura programmata.</p>";
+    return;
+  }
+
+  data.forEach(closure => {
+    const formattedDate =
+      new Date(
+        closure.data + "T00:00:00"
+      ).toLocaleDateString("it-IT");
+
+    closuresList.innerHTML += `
+      <div class="admin-closure-card">
+        <div>
+          <strong>${formattedDate}</strong>
+          <small>
+            ${closure.motivo || "Chiusura studio"}
+          </small>
+        </div>
+
+        <button
+          onclick="disableClosureDate('${closure.id}')"
+        >
+          Disattiva
+        </button>
+      </div>
+    `;
+  });
 }
 
 function showClosuresPanel() {
@@ -1540,27 +1601,22 @@ async function loadAdminAgenda() {
   const lessonSlots =
     [
       "lunedi-9",
-      "lunedi-17",
-      "lunedi-1815",
-      "lunedi-1930",
+      "lunedi-1730",
+      "lunedi-19",
 
-      "martedi-17",
-      "martedi-1815",
-      "martedi-1930",
+      "martedi-1730",
+      "martedi-19",
 
       "mercoledi-9",
-      "mercoledi-17",
-      "mercoledi-1815",
-      "mercoledi-1930",
+      "mercoledi-1730",
+      "mercoledi-19",
 
-      "giovedi-17",
-      "giovedi-1815",
-      "giovedi-1930",
+      "giovedi-1730",
+      "giovedi-19",
 
       "venerdi-9",
-      "venerdi-17",
-      "venerdi-1815",
-      "venerdi-1930"
+      "venerdi-1730",
+      "venerdi-19"
     ];
 
   const totalLessons =
@@ -1603,23 +1659,18 @@ const tomorrowBox =
 
 const allSlots = [
   "lunedi-9",
-  "lunedi-17",
-  "lunedi-1815",
-  "lunedi-1930",
-  "martedi-17",
-  "martedi-1815",
-  "martedi-1930",
+  "lunedi-1730",
+  "lunedi-19",
+  "martedi-1730",
+  "martedi-19",
   "mercoledi-9",
-  "mercoledi-17",
-  "mercoledi-1815",
-  "mercoledi-1930",
-  "giovedi-17",
-  "giovedi-1815",
-  "giovedi-1930",
+  "mercoledi-1730",
+  "mercoledi-19",
+  "giovedi-1730",
+  "giovedi-19",
   "venerdi-9",
-  "venerdi-17",
-  "venerdi-1815",
-  "venerdi-1930"
+  "venerdi-1730",
+  "venerdi-19"
 ];
 
 function toLocalDateString(date) {
@@ -2035,27 +2086,22 @@ async function cancelSpecificBooking(
 ) {
   const slotTimes = {
     "lunedi-9": "09:00:00",
-    "lunedi-17": "17:00:00",
-    "lunedi-1815": "18:15:00",
-    "lunedi-1930": "19:30:00",
+    "lunedi-1730": "17:30:00",
+    "lunedi-19": "19:00:00",
 
-    "martedi-17": "17:00:00",
-    "martedi-1815": "18:15:00",
-    "martedi-1930": "19:30:00",
+    "martedi-1730": "17:30:00",
+    "martedi-19": "19:00:00",
 
     "mercoledi-9": "09:00:00",
-    "mercoledi-17": "17:00:00",
-    "mercoledi-1815": "18:15:00",
-    "mercoledi-1930": "19:30:00",
+    "mercoledi-1730": "17:30:00",
+    "mercoledi-19": "19:00:00",
 
-    "giovedi-17": "17:00:00",
-    "giovedi-1815": "18:15:00",
-    "giovedi-1930": "19:30:00",
+    "giovedi-17": "17:30:00",
+    "giovedi-19": "19:00:00",
 
     "venerdi-9": "09:00:00",
-    "venerdi-17": "17:00:00",
-    "venerdi-1815": "18:15:00",
-    "venerdi-1930": "19:30:00"
+    "venerdi-1730": "17:30:00",
+    "venerdi-19": "19:00:00"
   };
 
   const lessonTime = slotTimes[bookingSlot];

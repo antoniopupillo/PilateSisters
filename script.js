@@ -71,15 +71,17 @@ function getNextLessonDate(dayName, slotName) {
   const lessonHourRaw = slotParts[1];
 
   let hour;
-  let minute;
+let minute;
 
-  if (lessonHourRaw.length === 4) {
-    hour = lessonHourRaw.slice(0, 2);
-    minute = lessonHourRaw.slice(2);
-  } else {
-    hour = lessonHourRaw.slice(0, 1);
-    minute = lessonHourRaw.slice(1);
-  }
+if (lessonHourRaw.length <= 2) {
+  // Esempi: "9" → 09:00, "19" → 19:00
+  hour = parseInt(lessonHourRaw, 10);
+  minute = 0;
+} else {
+  // Esempi: "1730" → 17:30
+  hour = parseInt(lessonHourRaw.slice(0, -2), 10);
+  minute = parseInt(lessonHourRaw.slice(-2), 10);
+}
 
   const lessonDate = new Date(now);
 
@@ -503,20 +505,23 @@ function extractTimeFromSlot(slot) {
   const timeRaw = slot.split("-")[1];
 
   let hour;
-  let minute;
+let minute;
 
-  if (timeRaw.length === 4) {
-    hour = timeRaw.slice(0, 2);
-    minute = timeRaw.slice(2);
-  } else {
-    hour = timeRaw.slice(0, 1);
-    minute = timeRaw.slice(1);
-  }
+if (timeRaw.length <= 2) {
+  // "9" → 09:00
+  // "19" → 19:00
+  hour = timeRaw;
+  minute = "00";
+} else {
+  // "1730" → 17:30
+  hour = timeRaw.slice(0, -2);
+  minute = timeRaw.slice(-2);
+}
 
-  hour = hour.padStart(2, "0");
-  minute = minute.padStart(2, "0");
+hour = hour.padStart(2, "0");
+minute = minute.padStart(2, "0");
 
-  return `${hour}:${minute}:00`;
+return `${hour}:${minute}:00`;
 }
 
 async function cancelBooking() {
@@ -561,9 +566,9 @@ async function cancelBooking() {
   const diffHours =
     (lessonDateTime - now) / 1000 / 60 / 60;
 
-  if (diffHours < 5) {
+  if (diffHours < 3) {
     alert(
-      "❌ Non puoi cancellare una lezione nelle 5 ore precedenti l'inizio."
+      "❌ Non puoi cancellare una lezione nelle 3 ore precedenti l'inizio."
     );
     return;
   }

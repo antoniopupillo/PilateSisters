@@ -10,7 +10,7 @@ let currentUserRole = null;
 let currentAppSection = "home";
 
 const STUDIO_SETTINGS = {
-  maxSpotsPerLesson: 15,
+  maxSpotsPerLesson: 1,
   weeklyBookingLimit: 3
 };
 
@@ -933,8 +933,6 @@ if (pastBookings.length === 0) {
 }
 
   myWaitingList.innerHTML = "";
-
-  myWaitingList.classList.remove("open");
 
   if (safeWaiting.length === 0) {
     myWaitingList.innerHTML =
@@ -2163,7 +2161,7 @@ async function cancelSpecificBooking(
     "mercoledi-1730": "17:30:00",
     "mercoledi-19": "19:00:00",
 
-    "giovedi-17": "17:30:00",
+    "giovedi-1730": "17:30:00",
     "giovedi-19": "19:00:00",
 
     "venerdi-9": "09:00:00",
@@ -2185,9 +2183,9 @@ async function cancelSpecificBooking(
   const diffHours =
     (lessonDateTime.getTime() - now.getTime()) / 1000 / 60 / 60;
 
-  if (diffHours < 5) {
+  if (diffHours < 3) {
     alert(
-      "❌ Non puoi cancellare una lezione nelle 5 ore precedenti l'inizio."
+      "❌ Non puoi cancellare una lezione nelle 3 ore precedenti l'inizio."
     );
     return;
   }

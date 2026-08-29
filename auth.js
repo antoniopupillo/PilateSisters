@@ -10,7 +10,7 @@ let currentUserRole = null;
 let currentAppSection = "home";
 
 const STUDIO_SETTINGS = {
-  maxSpotsPerLesson: 1,
+  maxSpotsPerLesson: 15,
   weeklyBookingLimit: 3
 };
 

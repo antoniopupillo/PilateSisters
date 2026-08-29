@@ -889,8 +889,6 @@ if (futureBookings.length > 0 && nextLessonCard) {
 
 myPastBookings.innerHTML = "";
 
-myPastBookings.classList.remove("open");
-
 if (pastBookingsSummary) {
   pastBookingsSummary.innerText =
     pastBookings.length === 0
@@ -899,8 +897,6 @@ if (pastBookingsSummary) {
           pastBookings.length === 1 ? "lezione" : "lezioni"
         }.`;
 }
-
-myPastBookings.classList.remove("open");
 
 if (pastBookings.length === 0) {
   myPastBookings.innerHTML =

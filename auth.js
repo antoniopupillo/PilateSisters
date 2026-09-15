@@ -376,8 +376,6 @@ async function loadAdminPanel() {
 
   if (!adminPanel) return;
 
-  adminPanel.style.display = "block";
-
   const { count: usersCount } = await supabaseClient
     .from("profiles")
     .select("*", {
@@ -399,15 +397,42 @@ async function loadAdminPanel() {
   document.getElementById("pendingUsersCount").innerText =
     pendingCount || 0;
 
-  const { count: bookingsCount } = await supabaseClient
-    .from("prenotazioni")
-    .select("*", {
-      count: "exact",
-      head: true
-    });
+  // Calcola lunedì e domenica della settimana corrente
+const today = new Date();
 
-  document.getElementById("totalBookings").innerText =
-    bookingsCount || 0;
+const monday = new Date(today);
+const day = today.getDay();
+const diffToMonday = day === 0 ? -6 : 1 - day;
+
+monday.setDate(today.getDate() + diffToMonday);
+
+const sunday = new Date(monday);
+sunday.setDate(monday.getDate() + 6);
+
+// Formato locale YYYY-MM-DD
+function formatLocalDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+const mondayString = formatLocalDate(monday);
+const sundayString = formatLocalDate(sunday);
+
+// Conta solo le prenotazioni della settimana corrente
+const { count: bookingsCount } = await supabaseClient
+  .from("prenotazioni")
+  .select("*", {
+    count: "exact",
+    head: true
+  })
+  .gte("data_lezione", mondayString)
+  .lte("data_lezione", sundayString);
+
+document.getElementById("totalBookings").innerText =
+  bookingsCount || 0;
 
   const { count: waitingCount } = await supabaseClient
     .from("attesa")
@@ -1041,15 +1066,87 @@ if (closuresPanel) {
   }
 
   if (type === "bookings") {
-    title = "Prenotazioni";
+  title = "Prenotazioni";
 
-    const result = await supabaseClient
-      .from("prenotazioni")
-      .select("*")
-      .order("data_lezione", { ascending: true });
+  // Calcola lunedì della settimana corrente
+  const today = new Date();
+  const monday = new Date(today);
 
-    data = result.data || [];
-  }
+  const day = today.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+
+  monday.setDate(today.getDate() + diffToMonday);
+
+  // Calcola domenica
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  // Converte la data in YYYY-MM-DD senza usare UTC
+  const formatLocalDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const mondayString = formatLocalDate(monday);
+  const sundayString = formatLocalDate(sunday);
+
+  const result = await supabaseClient
+    .from("prenotazioni")
+    .select("*")
+    .gte("data_lezione", mondayString)
+    .lte("data_lezione", sundayString)
+    .order("data_lezione", { ascending: true });
+
+  data = result.data || [];
+}
+
+if (type === "history") {
+  title = "Storico clienti";
+
+  const now = new Date();
+
+  const result = await supabaseClient
+    .from("prenotazioni")
+    .select("*")
+    .order("data_lezione", { ascending: false });
+
+  const bookings = result.data || [];
+
+  // Tiene solo le lezioni già trascorse
+  data = bookings.filter(item => {
+    if (!item.data_lezione || !item.fascia_oraria) {
+      return false;
+    }
+
+    const slotParts = item.fascia_oraria.split("-");
+    const lessonHourRaw = slotParts[1];
+
+    if (!lessonHourRaw) return false;
+
+    let hour;
+    let minute;
+
+    if (lessonHourRaw.length === 4) {
+      hour = lessonHourRaw.slice(0, 2);
+      minute = lessonHourRaw.slice(2);
+    } else {
+      hour = lessonHourRaw.slice(0, 1);
+      minute = lessonHourRaw.slice(1);
+    }
+
+    const lessonDate = new Date(
+      `${item.data_lezione}T${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:00`
+    );
+
+    return lessonDate < now;
+  });
+
+  showClientHistory(data);
+  return;
+}
 
   if (type === "waiting") {
     title = "Lista d'attesa";
@@ -1128,6 +1225,172 @@ ${type === "pending" ? `
   </div>
 </div>
     `;
+  });
+}
+
+function showClientHistory(bookings) {
+  const adminDetails =
+    document.getElementById("adminDetails");
+
+  if (!adminDetails) return;
+
+  adminDetails.innerHTML = `
+  <h3>Storico clienti</h3>
+
+  <div class="history-search-box">
+    <input
+      type="text"
+      id="historyClientSearch"
+      placeholder="Cerca cliente..."
+      oninput="filterClientHistory()"
+      autocomplete="off"
+    >
+  </div>
+`;
+
+  if (bookings.length === 0) {
+    adminDetails.innerHTML +=
+      "<p>Nessuna lezione effettuata.</p>";
+    return;
+  }
+
+  const clients = {};
+
+  bookings.forEach(item => {
+    // Usa l'email come identificativo principale
+    const key =
+      item.email ||
+      item.nome ||
+      `cliente-${item.id}`;
+
+    if (!clients[key]) {
+      clients[key] = {
+        nome: item.nome || "Senza nome",
+        email: item.email || "",
+        lessons: []
+      };
+    }
+
+    clients[key].lessons.push(item);
+  });
+
+  const clientList = Object.values(clients)
+    .sort((a, b) =>
+      a.nome.localeCompare(b.nome, "it")
+    );
+
+  clientList.forEach((client, index) => {
+
+    adminDetails.innerHTML += `
+  
+    <div
+  class="admin-detail-card history-client-card"
+  data-client-name="${client.nome.toLowerCase()}"
+  onclick="toggleClientHistory('clientHistory${index}', this)"
+>
+
+    <div class="history-client-header">
+
+      <div class="history-client-info">
+        <strong>
+          👤 ${client.nome}
+        </strong>
+
+        <small>
+  ${client.lessons.length}
+  ${
+    client.lessons.length === 1
+      ? "lezione effettuata"
+      : "lezioni effettuate"
+  }
+</small>
+
+<small class="history-client-breakdown">
+  ${
+    client.lessons.filter(
+      lesson => !lesson.fascia_oraria.endsWith("-9")
+    ).length
+  } Matwork
+  ·
+  ${
+    client.lessons.filter(
+      lesson => lesson.fascia_oraria.endsWith("-9")
+    ).length
+  } Posturale
+</small>
+      </div>
+
+      <span class="history-arrow">›</span>
+
+    </div>
+
+        <div
+          id="clientHistory${index}"
+          class="hidden-admin-details"
+        >
+
+          ${client.lessons.map(lesson => `
+            <div style="margin-top:12px;">
+
+              <strong>
+                🗓️ ${formatItalianDate(lesson.data_lezione)}
+              </strong>
+
+              <small>
+                ${formatSlotName(lesson.fascia_oraria)}
+              </small>
+
+              <small>
+                ${
+                  lesson.fascia_oraria.endsWith("-9")
+                    ? "Pilates Posturale"
+                    : "Pilates Matwork"
+                }
+              </small>
+
+            </div>
+          `).join("")}
+
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+function toggleClientHistory(id, card) {
+  const element =
+    document.getElementById(id);
+
+  if (!element) return;
+
+  element.classList.toggle("show");
+
+  if (card) {
+    card.classList.toggle("history-open");
+  }
+}
+
+function filterClientHistory() {
+  const searchInput =
+    document.getElementById("historyClientSearch");
+
+  if (!searchInput) return;
+
+  const search =
+    searchInput.value.toLowerCase().trim();
+
+  const cards =
+    document.querySelectorAll(".history-client-card");
+
+  cards.forEach(card => {
+    const clientName =
+      card.dataset.clientName || "";
+
+    card.style.display =
+      clientName.includes(search)
+        ? ""
+        : "none";
   });
 }
 
@@ -1625,11 +1888,11 @@ async function loadAdminAgenda() {
 
   endOfWeek.setHours(23, 59, 59, 999);
 
-  const startDate =
-    startOfWeek.toISOString().split("T")[0];
+ const startDate =
+  toLocalDateString(startOfWeek);
 
-  const endDate =
-    endOfWeek.toISOString().split("T")[0];
+const endDate =
+  toLocalDateString(endOfWeek);
 
   const { data: bookings, error: bookingsError } =
     await supabaseClient
@@ -1735,7 +1998,11 @@ const allSlots = [
 ];
 
 function toLocalDateString(date) {
-  return date.toISOString().split("T")[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 function renderAgendaDay(box, date) {

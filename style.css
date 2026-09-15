@@ -855,7 +855,7 @@ button:hover {
 
 .admin-stats-bottom {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
+  grid-template-columns: repeat(3, 260px);
   gap: 18px;
   justify-content: center;
   margin-top: 18px;
@@ -1573,7 +1573,7 @@ button:hover {
 
 .admin-stats-bottom {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
+  grid-template-columns: repeat(3, 260px);
   gap: 18px;
   justify-content: center;
   margin-top: 18px;
@@ -4088,4 +4088,84 @@ button:active {
     line-height: 1.25 !important;
     margin: 4px 0 !important;
   }
+}
+
+/* ===== STORICO CLIENTI ADMIN ===== */
+
+.history-client-card {
+  cursor: pointer;
+  padding: 18px 20px;
+}
+
+.history-client-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.history-client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.history-client-info strong {
+  color: #4e342e;
+  font-size: 1.05rem;
+}
+
+.history-client-info small {
+  color: #8d6e63;
+}
+
+.history-arrow {
+  font-size: 2rem !important;
+  font-weight: 300 !important;
+  color: #a1887f !important;
+  margin: 0 !important;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.history-client-card.history-open .history-arrow {
+  transform: rotate(90deg);
+}
+
+.history-client-card .hidden-admin-details {
+  padding-top: 8px;
+}
+
+/* RICERCA STORICO CLIENTI */
+
+.history-search-box {
+  margin: 18px 0 22px;
+}
+
+.history-search-box input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border: 1px solid #e5d8cc;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.85);
+  color: #4e342e;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.history-search-box input:focus {
+  border-color: #c8a58d;
+  background: white;
+}
+
+.history-search-box input::placeholder {
+  color: #a1887f;
+}
+
+.history-client-breakdown {
+  font-size: 0.82rem;
+  color: #a1887f !important;
+  margin-top: 2px;
 }

@@ -1838,7 +1838,28 @@ if (navButtons[1]) {
   }
 
   await loadAdminAgenda();
+  startAdminAgendaRefresh();
 
+}
+
+let adminAgendaRefreshStarted = false;
+
+function startAdminAgendaRefresh() {
+  if (adminAgendaRefreshStarted) return;
+
+  adminAgendaRefreshStarted = true;
+
+  setInterval(() => {
+    const agendaPanel =
+      document.getElementById("adminAgendaPanel");
+
+    if (
+      agendaPanel &&
+      agendaPanel.style.display !== "none"
+    ) {
+      loadAdminAgenda();
+    }
+  }, 5000);
 }
 
 async function loadAdminAgenda() {
@@ -1891,8 +1912,15 @@ async function loadAdminAgenda() {
  const startDate =
   toLocalDateString(startOfWeek);
 
+const endOfNextWeek =
+  new Date(endOfWeek);
+
+endOfNextWeek.setDate(
+  endOfNextWeek.getDate() + 7
+);
+
 const endDate =
-  toLocalDateString(endOfWeek);
+  toLocalDateString(endOfNextWeek);
 
   const { data: bookings, error: bookingsError } =
     await supabaseClient
@@ -2085,16 +2113,6 @@ box.innerHTML += `
   });
 }
 
-const tomorrow =
-  new Date(today);
-
-tomorrow.setDate(
-  today.getDate() + 1
-);
-
-renderAgendaDay(todayBox, today);
-renderAgendaDay(tomorrowBox, tomorrow);
-
 const weekSummary =
   document.getElementById("agendaWeekSummary");
 
@@ -2110,41 +2128,136 @@ if (weekSummary) {
     { label: "VEN", key: "venerdi" }
   ];
 
-  weekDays.forEach(day => {
+  weekDays.forEach(dayInfo => {
 
-    const lessonsCount =
+    // Trova la data del giorno corrente della settimana
+    const currentDay = new Date(today);
+
+    const dayIndex = [
+      "domenica",
+      "lunedi",
+      "martedi",
+      "mercoledi",
+      "giovedi",
+      "venerdi",
+      "sabato"
+    ].indexOf(dayInfo.key);
+
+    const todayIndex = currentDay.getDay();
+
+    let diff =
+      dayIndex - todayIndex;
+
+    if (diff < 0) {
+      diff += 7;
+    }
+
+    currentDay.setDate(
+      currentDay.getDate() + diff
+    );
+
+    /*
+      Controlla se le lezioni di questo giorno
+      sono già terminate.
+
+      Se è oggi e l'ultima lezione è già passata,
+      passa direttamente alla settimana successiva.
+    */
+
+    const lessonsForDay =
       lessonSlots.filter(slot =>
-        slot.startsWith(day.key)
-      ).length;
+        slot.startsWith(dayInfo.key)
+      );
 
-    const bookingsCount =
-      safeBookings.filter(item =>
-        item.fascia_oraria.startsWith(day.key)
-      ).length;
+    if (
+  currentDay.toDateString() ===
+  today.toDateString()
+) {
 
-    const waitingCount =
-      safeWaiting.filter(item =>
-        item.fascia_oraria.startsWith(day.key)
-      ).length;
+  const endOfLessonDay =
+    new Date(today);
+
+  endOfLessonDay.setHours(
+    21,
+    0,
+    0,
+    0
+  );
+
+  if (today >= endOfLessonDay) {
+    currentDay.setDate(
+      currentDay.getDate() + 7
+    );
+  }
+}
+
+    const dateString =
+      toLocalDateString(currentDay);
 
     weekSummary.innerHTML += `
       <div class="agenda-week-day">
 
-        <strong>
-          ${day.label}
-        </strong>
+        <div class="agenda-week-day-header">
 
-        <span>
-          📅 ${lessonsCount} lezioni
-        </span>
+          <strong>
+            ${dayInfo.label}
+          </strong>
 
-        <span>
-          👥 ${bookingsCount} prenotati
-        </span>
+          <span>
+            ${formatItalianDate(dateString)}
+          </span>
 
-        <span>
-          ⏳ ${waitingCount} attese
-        </span>
+        </div>
+
+        <div class="agenda-week-slots">
+
+          ${
+            lessonsForDay.map(slot => {
+
+              const booked =
+                safeBookings.filter(item =>
+                  item.data_lezione === dateString &&
+                  item.fascia_oraria === slot
+                ).length;
+
+              const waitingCount =
+                safeWaiting.filter(item =>
+                  item.data_lezione === dateString &&
+                  item.fascia_oraria === slot
+                ).length;
+
+              const timeLabel =
+  formatSlotName(slot);
+
+              return `
+                <div
+                  class="agenda-week-slot"
+                  onclick="toggleAgendaLessonDetails('${dateString}', '${slot}')"
+                >
+
+                  <div class="agenda-slot-time">
+                    ${timeLabel}
+                  </div>
+
+                  <div class="agenda-slot-info">
+
+                    <span>
+                      👥 ${booked} iscritti
+                    </span>
+
+                    <span>
+                      ⏳ ${waitingCount} in attesa
+                    </span>
+
+                  </div>
+
+                </div>
+              `;
+
+            }).join("")
+          }
+
+        </div>
 
       </div>
     `;

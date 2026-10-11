@@ -692,3 +692,52 @@ function showMobileDay(day) {
 window.addEventListener("load", () => {
   showMobileDay("lunedi");
 });
+
+function updateCalendarDates() {
+  const days = [
+    "lunedi",
+    "martedi",
+    "mercoledi",
+    "giovedi",
+    "venerdi"
+  ];
+
+  const dayNames = {
+    lunedi: "lunedi",
+    martedi: "martedi",
+    mercoledi: "mercoledi",
+    giovedi: "giovedi",
+    venerdi: "venerdi"
+  };
+
+  const now = new Date();
+
+  days.forEach(dayName => {
+    const column = document.querySelector(
+      `.day-column[data-day="${dayName}"]`
+    );
+
+    if (!column) return;
+
+    const dateElement = column.querySelector(".day-date");
+    if (!dateElement) return;
+
+    const firstSlot = column.querySelector(".card");
+    if (!firstSlot) return;
+
+    const slotName = firstSlot.id;
+    const dateString = getNextLessonDate(dayName, slotName);
+    const date = new Date(`${dateString}T00:00:00`);
+
+    dateElement.textContent = date.toLocaleDateString(
+      "it-IT",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    );
+  });
+}
+
+window.addEventListener("load", updateCalendarDates);

@@ -38,7 +38,7 @@ header::before {
   z-index: -1;
   background-image:
     linear-gradient(rgba(245,241,235,0.62), rgba(245,241,235,0.62)),
-    url("images/pilates-bg.jpeg");
+    url("images/pilates-bg-halloween.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1267,7 +1267,7 @@ button:hover {
   header::before {
     background-image:
       linear-gradient(rgba(245,241,235,0.62), rgba(245,241,235,0.62)),
-      url("images/pilates-bg-mobile.jpg");
+      url("images/pilates-bg-mobile-halloween.jpg");
     animation: heroZoomMobile 34s ease-in-out infinite alternate;
   }
 
@@ -4272,3 +4272,191 @@ button:active {
   }
 
 }
+
+.day-date {
+  margin-top: -8px;
+  margin-bottom: 18px;
+  text-align: center;
+  color: #8d6e63;
+  font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   🎃 HALLOWEEN THEME — PILATESISTERS
+   TEMPORANEO — RIMUOVERE DOPO HALLOWEEN
+   ========================================================= */
+
+/* ---------- COLORI PRINCIPALI ---------- */
+
+:root {
+  --halloween-orange: #d97724;
+  --halloween-orange-light: #f2a65a;
+  --halloween-purple: #4b2a52;
+  --halloween-purple-dark: #2d1b31;
+  --halloween-brown: #3b2418;
+  --halloween-cream: #fff8ef;
+  --halloween-border: #e5c5a5;
+}
+
+
+/* ---------- SFONDI GENERALI ---------- */
+
+body {
+  background: var(--halloween-cream) !important;
+}
+
+
+/* ---------- HEADER ---------- */
+
+header {
+  background-color: #fff3e3 !important;
+}
+
+
+/* ---------- TITOLI ---------- */
+
+h1,
+h2,
+h3 {
+  color: var(--halloween-brown) !important;
+}
+
+
+/* ---------- CARD ---------- */
+
+.dashboard-card,
+.dashboard-small-card,
+.dashboard-news,
+.admin-stat-card,
+.agenda-stat-card,
+.agenda-week-card,
+.agenda-week-day {
+  border-color: var(--halloween-border) !important;
+}
+
+
+/* ---------- TITOLI DELLE CARD ---------- */
+
+.dashboard-card-title h2 {
+  color: var(--halloween-brown) !important;
+}
+
+
+/* ---------- PULSANTI PRINCIPALI ---------- */
+
+button {
+  --btn-halloween-color: var(--halloween-orange);
+}
+
+
+/* Pulsanti principali */
+
+.dashboard-outline-btn {
+  border-color: var(--halloween-orange) !important;
+  color: var(--halloween-orange) !important;
+}
+
+.dashboard-outline-btn:hover {
+  background: var(--halloween-orange) !important;
+  color: white !important;
+}
+
+
+/* ---------- HOME / PRENOTA ---------- */
+
+.app-nav {
+  background: rgba(255, 248, 239, 0.97) !important;
+  border: 1px solid var(--halloween-border) !important;
+  box-shadow:
+    0 12px 34px rgba(59, 36, 24, 0.20) !important;
+}
+
+.app-nav button.active {
+  background: var(--halloween-orange) !important;
+  color: white !important;
+}
+
+.app-nav button:not(.active) {
+  color: var(--halloween-purple) !important;
+}
+
+
+/* ---------- AGENDA ---------- */
+
+.agenda-week-day {
+  background: #fffaf4 !important;
+}
+
+.agenda-week-slot {
+  background: #f8e9da !important;
+}
+
+.agenda-week-slot:hover {
+  background: #f1d7bd !important;
+}
+
+.agenda-slot-time {
+  color: var(--halloween-brown) !important;
+}
+
+.agenda-slot-info span {
+  color: #765547 !important;
+}
+
+
+/* ---------- STATISTICHE ADMIN ---------- */
+
+.admin-stat-card,
+.agenda-stat-card {
+  background: #fffaf4 !important;
+}
+
+.admin-stat-card strong,
+.agenda-stat-card strong {
+  color: var(--halloween-orange) !important;
+}
+
+
+/* ---------- BOX STORICO / LISTA D'ATTESA ---------- */
+
+.dashboard-hidden-box {
+  border-color: var(--halloween-border) !important;
+  background: #fffaf4 !important;
+}
+
+
+/* ---------- INPUT ---------- */
+
+input,
+textarea,
+select {
+  border-color: var(--halloween-border) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--halloween-orange) !important;
+  box-shadow: 0 0 0 3px rgba(217, 119, 36, 0.12) !important;
+}
+
+
+/* ---------- LINK ---------- */
+
+a {
+  color: var(--halloween-purple) !important;
+}
+
+
+/* ---------- ELEMENTI IN EVIDENZA ---------- */
+
+.important-news-banner {
+  border-color: var(--halloween-orange) !important;
+}
+
+
+/* =========================================================
+   🎃 FINE HALLOWEEN THEME
+   ELIMINARE TUTTO DA "HALLOWEEN THEME" A QUI
+   ========================================================= */
